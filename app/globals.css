@@ -2,26 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* 以下、既存のカスタムスタイル */
+html,
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+#root {
+  height: 100%;
+}
+
+.react-flow__container {
+  height: 100%;
+}
+
+.react-flow__edge-path {
+  stroke: #9ca3af;
+  stroke-width: 2;
+}
+
+.react-flow__edge-text {
+  font-size: 12px;
+  fill: #4b5563;
+  font-weight: 700;
+}
+
+.react-flow__edge-textbg {
+  fill: #f3f4f6;
+  fill-opacity: 0.7;
+}
+
+.react-flow__handle {
+  width: 12px !important;
+  height: 12px !important;
+  min-width: 12px !important;
+  min-height: 12px !important;
+  border: 2px solid #d1d5db !important;
+  background-color: white !important;
+}
+
+.react-flow__handle-right {
+  right: -8px !important;
+}
+
+.react-flow__handle-left {
+  left: -8px !important;
 }

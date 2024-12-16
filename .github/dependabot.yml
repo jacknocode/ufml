@@ -1,0 +1,39 @@
+version: 2
+updates:
+  # npm パッケージの更新設定
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'Asia/Tokyo'
+    open-pull-requests-limit: 10
+    groups:
+      # 型定義ファイルをグループ化
+      types:
+        patterns:
+          - '@types/*'
+      # React関連をグループ化
+      react:
+        patterns:
+          - 'react'
+          - 'react-dom'
+          - '@types/react'
+          - '@types/react-dom'
+    ignore:
+      # Next.jsのメジャーアップデートは手動で行う
+      - dependency-name: 'next'
+        update-types: ['version-update:semver-major']
+      # React本体のメジャーアップデートは慎重に行う
+      - dependency-name: 'react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-dom'
+        update-types: ['version-update:semver-major']
+    commit-message:
+      prefix: 'deps'
+      prefix-development: 'chore'
+      include: 'scope'
+
+    labels:
+      - 'dependencies'
