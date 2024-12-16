@@ -17,7 +17,7 @@
     "eslint-config-next": "13.4.5",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
-    "lucide-react": "^0.244.0",
+    "lucide-react": "^0.468.0",
     "next": "13.4.5",
     "postcss": "8.4.24",
     "react": "18.2.0",
