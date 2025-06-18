@@ -1,0 +1,285 @@
+# UFML (User interface Flow Markup Language) - LLM Learning Guide
+
+## Overview
+
+UFML is a lightweight markup language designed for describing application screen transitions, UI requirements, and non-functional requirements in a structured, text-based format optimized for AI/LLM collaboration.
+
+### Key Characteristics
+- Text-based structured format for UI flow definition
+- Integration of functional and non-functional requirements
+- Optimized for LLM parsing and generation
+- Serves as an intermediate language in UI development processes
+
+## Core Syntax Rules
+
+### 1. Block Definitions
+
+#### Screen Block: `[Screen Name]`
+- Defines a specific screen or UI state
+- Enclosed in square brackets `[]`
+- Contains UI elements and interactions
+- Example: `[Login Screen]`, `[Product Detail Page]`
+
+#### Use Case Block: `(Use Case Name)`
+- Defines business logic or backend processes
+- Enclosed in parentheses `()`
+- Can be called from screen block actions
+- Example: `(User Authentication)`, `(Inventory Allocation)`
+
+### 2. UI Elements (Screen Blocks Only)
+
+UI elements are defined with single-letter prefixes:
+
+#### T - Text Elements
+- Static text, labels, headings
+- Example: `T Welcome Message`, `T Product Name`
+
+#### E - Editable Fields
+- Input fields, checkboxes, dropdowns, radio buttons
+- Example: `E Email Address`, `E Password`, `E Terms Agreement`
+
+#### B - Buttons
+- Clickable elements that trigger actions
+- Example: `B Login`, `B Search`, `B Submit`
+
+#### O - Other Elements
+- Complex UI components (tables, lists, images, custom components)
+- Example: `O Product List Table`, `O User Avatar Image`
+
+### 3. PSAU Comments (Non-functional Requirements)
+
+PSAU comments define non-functional requirements and must be placed immediately after block definitions:
+
+#### //P: Performance Requirements
+- Response time, load time, throughput specifications
+- Example: `//P: response_time <= 1s`, `//P: load_time <= 2s`
+
+#### //S: Security Requirements
+- Authentication, authorization, data protection
+- Example: `//S: multi_factor_auth=required`, `//S: role=admin`
+
+#### //A: Availability Requirements
+- Uptime, reliability, fault tolerance
+- Example: `//A: uptime >= 99.9%`, `//A: auto_backup=enabled`
+
+#### //U: Usability Requirements
+- User experience, accessibility, interface standards
+- Example: `//U: accessibility=AAA`, `//U: mobile_responsive=true`
+
+### 4. Interactions and Transitions
+
+#### Separator: `--`
+- Separates UI elements from interaction definitions
+- Must be placed between UI elements and actions
+
+#### Basic Transition: `A [Description] => [Target]`
+- `A`: Action indicator
+- `[Description]`: Brief explanation of the interaction
+- `=>`: Transition operator
+- `[Target]`: Destination screen or use case
+
+#### Conditional Transition: `A [Description] ={condition}=> [Target]`
+- `={condition}=>`: Conditional transition operator
+- Only executes when the specified condition is met
+- Example: `A Login ={authentication_success}=> Main Menu`
+
+## Complete Examples
+
+### Basic Example: Simple Login Flow
+```
+[Login Screen]
+//P: response_time <= 0.5s
+//S: multi_factor_auth=required
+//A: uptime >= 99.9%
+//U: error_messages_in_japanese=true
+
+E User ID
+E Password
+B Login
+B Forgot Password
+--
+A Login Authentication ={authentication_success}=> Main Menu
+A Login Authentication ={authentication_failure}=> Login Screen
+A Forgot Password => Password Reset
+
+[Main Menu]
+//P: load_time <= 1s
+//U: navigation_intuitive=true
+
+T Welcome Message
+O Navigation Menu
+B Logout
+--
+A Logout => Login Screen
+```
+
+### Advanced Example: E-commerce Product Management
+```
+[Product List]
+//P: list_display <= 1s
+//S: view_permission_required=true
+//A: cache_enabled=true
+//U: sort_and_filter_available=true
+
+E Search Keywords
+B Search
+O Product Table
+O Pagination
+B Add New Product
+--
+A Search => Product List
+A Add Product => Product Creation
+A Select Product => Product Detail
+
+[Product Creation]
+//P: form_validation <= 0.3s
+//S: input_sanitization=required
+//A: auto_save_draft=enabled
+
+E Product Name
+E Description
+E Price
+E Category
+O Image Upload
+B Cancel
+B Save
+--
+A Cancel => Product List
+A Save ={validation_success}=> Product List
+A Save ={validation_failure}=> Product Creation
+
+[Product Detail]
+//A: change_history_tracking=enabled
+//U: inline_editing=available
+
+T Product Information
+O Review History
+E New Review
+B Add Review
+B Edit Product
+B Delete Product
+--
+A Edit Product => Product Edit
+A Delete Product ={confirmation}=> Product List
+A Add Review ={review_saved}=> Product Detail
+
+(Inventory Check)
+//P: processing_time <= 3s
+//S: transaction_guarantee=required
+//A: rollback_on_failure=enabled
+```
+
+### Complex Conditional Example: Admin Dashboard
+```
+[Admin Dashboard]
+//P: dashboard_load <= 2s
+//S: role=admin
+//U: real_time_updates=enabled
+
+T Admin Menu List
+O System Status Panel
+O User Activity Log
+B User Management
+B System Settings
+B Reports
+--
+A User Management ={admin_permission}=> User List
+A System Settings ={super_admin_permission}=> Settings Panel
+A Generate Report => Report Generation
+
+(User Permission Check)
+//P: permission_check <= 0.1s
+//S: role_based_access_control=strict
+//A: session_validation=required
+
+(Report Generation)
+//P: report_generation <= 30s
+//S: data_anonymization=required
+//A: background_processing=enabled
+```
+
+## Best Practices for LLM Integration
+
+### 1. Consistent Naming Conventions
+- Use descriptive, unambiguous names for screens and use cases
+- Maintain consistent terminology across the entire UFML document
+- Avoid abbreviations that could be misinterpreted
+
+### 2. Appropriate Granularity
+- Each screen block should represent a distinct UI state
+- Break down complex screens into smaller, manageable blocks
+- Use use case blocks for reusable business logic
+
+### 3. Effective PSAU Usage
+- Include relevant non-functional requirements for each screen
+- Use measurable criteria when possible (e.g., `<= 1s`, `>= 99.9%`)
+- Consider all four aspects (P, S, A, U) for comprehensive coverage
+
+### 4. Clear Interaction Definitions
+- Use descriptive action names that clearly indicate the user's intent
+- Specify conditions explicitly for conditional transitions
+- Ensure all possible user paths are covered
+
+### 5. Structured Organization
+- Group related screens logically
+- Use consistent indentation and formatting
+- Include comments for complex business rules when necessary
+
+## LLM Processing Guidelines
+
+When processing UFML, LLMs should:
+
+1. **Parse Structure**: Identify blocks using `[]` and `()` patterns
+2. **Extract Elements**: Recognize UI elements by their prefixes (T, E, B, O)
+3. **Analyze Requirements**: Parse PSAU comments for non-functional requirements
+4. **Map Transitions**: Build flow diagrams from `A ... => ...` patterns
+5. **Validate Consistency**: Check for missing transitions or undefined targets
+6. **Generate Code**: Create appropriate UI components based on element types
+7. **Maintain Traceability**: Link generated code back to UFML specifications
+
+## Common Patterns and Templates
+
+### Authentication Flow Template
+```
+[Login Screen]
+//S: secure_authentication=required
+E Username/Email
+E Password
+B Login
+B Register
+--
+A Login ={success}=> Dashboard
+A Login ={failure}=> Login Screen
+A Register => Registration Screen
+```
+
+### CRUD Operations Template
+```
+[Entity List]
+//P: list_load <= 1s
+O Entity Table
+B Create New
+--
+A Create => Entity Creation
+A Select Item => Entity Detail
+
+[Entity Creation]
+//S: input_validation=required
+E Required Fields...
+B Save
+B Cancel
+--
+A Save ={valid}=> Entity List
+A Cancel => Entity List
+
+[Entity Detail]
+//A: change_tracking=enabled
+T Entity Information
+B Edit
+B Delete
+--
+A Edit => Entity Edit
+A Delete ={confirmed}=> Entity List
+```
+
+This guide provides comprehensive coverage of UFML syntax and best practices for LLM integration, enabling accurate parsing, generation, and manipulation of UFML documents.
