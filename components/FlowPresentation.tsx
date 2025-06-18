@@ -6,6 +6,7 @@ import React, {
   useCallback,
   useLayoutEffect,
   useRef,
+  useMemo,
 } from 'react'
 import ReactFlow, {
   Controls,
@@ -13,6 +14,7 @@ import ReactFlow, {
   Background,
   Panel,
   useReactFlow,
+  MarkerType,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import { InputArea } from '@/components/InputArea'
@@ -23,15 +25,20 @@ import { getComplementaryColor, adjustBrightness } from '@/utils/colorUtils'
 export const FlowPresentation: React.FC<FlowPresentationProps> = ({
   nodes,
   edges,
+  selectedEdgeId,
+  selectedNodeId,
   onNodesChange,
   onEdgesChange,
   onConnect,
+  onEdgeClick,
+  handlePaneClick,
+  handleNodeClick,
   input,
   showAllRequirements,
   handleInputChange,
   handleGenerate,
-  handleExportPDF,
   handleToggleAllRequirements,
+  handleCopyText,
   reactFlowWrapper,
   flowRef,
   nodeTypes,
@@ -43,9 +50,17 @@ export const FlowPresentation: React.FC<FlowPresentationProps> = ({
   dotSize,
   setDotSize,
   handleAlignNodes,
-  edgeMode,
-  handleEdgeModeChange,
 }) => {
+  // コールバック関数のメモ化
+  const memoizedOnNodesChange = useCallback(onNodesChange, [onNodesChange]);
+  const memoizedOnEdgesChange = useCallback(onEdgesChange, [onEdgesChange]);
+  const memoizedOnConnect = useCallback(onConnect, [onConnect]);
+  const memoizedOnEdgeClick = useCallback(onEdgeClick, [onEdgeClick]);
+
+  // nodeTypes と edgeTypes もメモ化
+  const memoizedNodeTypes = useMemo(() => nodeTypes, [nodeTypes]);
+  const memoizedEdgeTypes = useMemo(() => edgeTypes, [edgeTypes]);
+
   const [showColorPicker, setShowColorPicker] = useState(false)
   const [dotColor, setDotColor] = useState(
     getComplementaryColor(backgroundColor)
@@ -91,10 +106,6 @@ export const FlowPresentation: React.FC<FlowPresentationProps> = ({
     }
   }, [handleKeyDown])
 
-  const memoizedOnNodesChange = useCallback(onNodesChange, [onNodesChange])
-  const memoizedOnEdgesChange = useCallback(onEdgesChange, [onEdgesChange])
-  const memoizedOnConnect = useCallback(onConnect, [onConnect])
-
   const toggleLayoutMode = useCallback(() => {
     setLayoutMode(prevMode => (prevMode === 'bottom' ? 'side' : 'bottom'))
   }, [])
@@ -138,12 +149,35 @@ export const FlowPresentation: React.FC<FlowPresentationProps> = ({
       <div ref={flowRef} className="w-full h-full">
         <ReactFlow
           nodes={nodes}
-          edges={edges}
+          edges={edges.map(edge => {
+            const isSelected = edge.id === selectedEdgeId;
+            const edgeColor = isSelected ? '#3B82F6' : '#9CA3AF';
+            
+            // 選択されたエッジの場合、スタイルと矢印の色を変更
+            return {
+              ...edge,
+              style: {
+                ...edge.style,
+                strokeWidth: isSelected ? 3 : 2,
+                stroke: edgeColor,
+              },
+              // 矢印マーカーも同じ色で更新
+              markerEnd: {
+                type: MarkerType.ArrowClosed,
+                color: edgeColor,
+                width: 20,
+                height: 20,
+              },
+            };
+          })}
           onNodesChange={memoizedOnNodesChange}
           onEdgesChange={memoizedOnEdgesChange}
           onConnect={memoizedOnConnect}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
+          onEdgeClick={memoizedOnEdgeClick}
+          onPaneClick={handlePaneClick}
+          onNodeClick={handleNodeClick}
+          nodeTypes={memoizedNodeTypes}
+          edgeTypes={memoizedEdgeTypes}
           fitViewOptions={{ padding: 0.3 }}
           style={{ background: backgroundColor }}
           fitView
@@ -166,13 +200,12 @@ export const FlowPresentation: React.FC<FlowPresentationProps> = ({
               value={input}
               onChange={handleInputChange}
               onGenerate={handleGenerate}
-              onExportPDF={handleExportPDF}
+              selectedNodeId={selectedNodeId}
               showAllRequirements={showAllRequirements}
               onToggleAllRequirements={handleToggleAllRequirements}
               onToggleColorPicker={() => setShowColorPicker(!showColorPicker)}
               onAlign={handleAlignNodes}
-              edgeMode={edgeMode}
-              onEdgeModeChange={handleEdgeModeChange}
+              onCopy={handleCopyText}
               layoutMode={layoutMode}
               onToggleLayoutMode={toggleLayoutMode}
             />

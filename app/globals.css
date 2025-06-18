@@ -39,14 +39,7 @@ body {
   height: 12px !important;
   min-width: 12px !important;
   min-height: 12px !important;
-  border: 2px solid #d1d5db !important;
+  border: 1px solid #d1d5db !important;
   background-color: white !important;
-}
-
-.react-flow__handle-right {
-  right: -8px !important;
-}
-
-.react-flow__handle-left {
-  left: -8px !important;
+  border-radius: 50% !important;
 }

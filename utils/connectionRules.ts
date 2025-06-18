@@ -12,8 +12,8 @@ export const createEdge = (
   source,
   target,
   sourceHandle,
-  targetHandle: 'left',
-  type: 'smoothstep',
+  targetHandle: source === target ? 'left' : 'left',
+  type: 'custom', // Always use bezier for consistent edge appearance
   style: { stroke: '#9CA3AF', strokeWidth: 2 },
   markerEnd: {
     type: MarkerType.ArrowClosed,
@@ -22,7 +22,7 @@ export const createEdge = (
     color: '#9CA3AF',
   },
   label,
-  labelStyle: { fill: '#4B5563', fontWeight: 700 },
+  labelStyle: { fill: '#4B5563', fontWeight: 400, fontSize: 12 }, // フォントサイズとウェイトを調整
   labelBgStyle: { fill: '#F3F4F6', fillOpacity: 0.7 },
 })
 

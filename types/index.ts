@@ -29,15 +29,20 @@ export interface CustomNodeProps {
 export interface FlowPresentationProps {
   nodes: Node[]
   edges: Edge[]
+  selectedEdgeId: string | null
+  selectedNodeId: string | null
   onNodesChange: (changes: any) => void
   onEdgesChange: (changes: any) => void
   onConnect: (connection: Connection) => void
+  onEdgeClick: (event: React.MouseEvent, edge: Edge) => void
+  handlePaneClick: (event: React.MouseEvent) => void
+  handleNodeClick: (event: React.MouseEvent, node: Node) => void
   input: string
   showAllRequirements: boolean
   handleInputChange: (value: string) => void
   handleGenerate: () => void
-  handleExportPDF: () => void
   handleToggleAllRequirements: () => void
+  handleCopyText: () => void
   reactFlowWrapper: React.RefObject<HTMLDivElement>
   flowRef: React.RefObject<HTMLDivElement>
   nodeTypes: NodeTypes
@@ -49,8 +54,6 @@ export interface FlowPresentationProps {
   dotSize: number
   setDotSize: (size: number) => void
   handleAlignNodes: (option: 'horizontal' | 'vertical' | 'grid') => void
-  edgeMode: 'bezier' | 'straight' | 'step'
-  handleEdgeModeChange: (mode: 'bezier' | 'straight' | 'step') => void
   layoutMode: 'bottom' | 'side'
   onToggleLayoutMode: () => void
 }
@@ -59,18 +62,12 @@ export interface InputAreaProps {
   value: string
   onChange: (value: string) => void
   onGenerate: () => void
-  onExportPDF: () => void
+  selectedNodeId?: string | null
   showAllRequirements: boolean
   onToggleAllRequirements: () => void
   onToggleColorPicker: () => void
   onAlign: (option: 'horizontal' | 'vertical' | 'grid') => void
-  edgeMode: 'bezier' | 'straight' | 'step'
-  onEdgeModeChange: (mode: 'bezier' | 'straight' | 'step') => void
   layoutMode: 'bottom' | 'side'
   onToggleLayoutMode: () => void
-}
-
-export interface PDFExportButtonPresentationProps {
-  isGenerating: boolean
-  onExportPDF: () => void
+  onCopy?: () => void
 }

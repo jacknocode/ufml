@@ -59,17 +59,49 @@ function parseItems(lines: string[]): {
       return
     }
 
+    // 楕円ノードからの外部接続を処理 (例: (text) => target または (text) ={label}=> target)
+    const externalEllipseConnectionMatch = line.match(/^\(([^)]+)\)\s*(={([^}]+)}=>\s*(.+)|=>\s*(.+))$/)
+    if (externalEllipseConnectionMatch) {
+      const ellipseText = externalEllipseConnectionMatch[1].trim()
+      
+      // ラベル付き接続かどうかで処理を分岐
+      const hasLabel = externalEllipseConnectionMatch[3] !== undefined
+      const connectionLabel = hasLabel ? externalEllipseConnectionMatch[3].trim() : undefined
+      const connectionTarget = hasLabel ? 
+        externalEllipseConnectionMatch[4].trim() : 
+        externalEllipseConnectionMatch[5].trim()
+      
+      ellipseItems.push({
+        type: 'ellipse',
+        text: ellipseText,
+        connection: connectionTarget,
+        connectionLabel: connectionLabel
+      })
+      return
+    }
+    
+    // 通常の楕円ノード (例: (text) または (text1 => text2))
     if (line.startsWith('(') && line.endsWith(')')) {
       const content = line.slice(1, -1)
-      const parts = content.split('=>')
-      parts.forEach((part, index) => {
+      
+      // 楕円ノード内の接続を処理
+      if (content.includes('=>')) {
+        const parts = content.split('=>')
+        parts.forEach((part, index) => {
+          ellipseItems.push({
+            type: 'ellipse',
+            text: part.trim(),
+            connection:
+              index < parts.length - 1 ? parts[index + 1].trim() : undefined,
+          })
+        })
+      } else {
+        // 通常の楕円ノード（接続なし）
         ellipseItems.push({
           type: 'ellipse',
-          text: part.trim(),
-          connection:
-            index < parts.length - 1 ? parts[index + 1].trim() : undefined,
+          text: content.trim()
         })
-      })
+      }
       return
     }
 
@@ -164,7 +196,7 @@ export function parseInput(
           source: `ellipse_${ellipseNodeId - 1}`,
           target: item.connection,
           sourceHandle: 'right',
-          label: '',
+          label: item.connectionLabel || '',
         })
       }
     })
@@ -215,9 +247,20 @@ export function parseInput(
 
   // Process pending connections
   pendingConnections.forEach(connection => {
-    const targetNodeIndex = nodes.findIndex(
+    // 通常の一致を試みる
+    let targetNodeIndex = nodes.findIndex(
       n => n.data.label === connection.target
     )
+    
+    // 通常の一致が見つからない場合、括弧を考慮した一致を試みる
+    if (targetNodeIndex === -1) {
+      // 括弧付きの接続先を検索（例：'name' が '(name)' と一致するか）
+      targetNodeIndex = nodes.findIndex(
+        n => n.data.label === connection.target.replace(/^\(|\)$/g, '') || 
+             `(${n.data.label})` === connection.target
+      )
+    }
+    
     if (targetNodeIndex !== -1) {
       edges.push(
         createEdge(

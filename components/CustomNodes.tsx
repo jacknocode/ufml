@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, memo, useCallback } from 'react'
 import { Handle, Position, useReactFlow } from 'reactflow'
-import { X, ToggleLeft, ToggleRight } from 'lucide-react'
+import { ToggleLeft, ToggleRight } from 'lucide-react'
 import { iconMap } from '@/utils/iconMapping'
 import { CustomNodeProps, Requirement } from '@/types'
 
@@ -34,11 +34,9 @@ const RequirementsTable: React.FC<{
 
 export const CustomNodePresentation: React.FC<CustomNodeProps> = memo(
   ({ id, data }: CustomNodeProps) => {
-    const [showDisconnect, setShowDisconnect] = useState(false)
     const [showRequirements, setShowRequirements] = useState(
       data.showAllRequirements
     )
-    const { setEdges } = useReactFlow()
 
     useEffect(() => {
       setShowRequirements(data.showAllRequirements)
@@ -48,25 +46,17 @@ export const CustomNodePresentation: React.FC<CustomNodeProps> = memo(
       setShowRequirements(prev => !prev)
     }
 
-    const handleDisconnect = useCallback(() => {
-      setEdges(edges =>
-        edges.filter(edge => edge.source !== id && edge.target !== id)
-      )
-    }, [id, setEdges])
-
     return (
       <div
-        className="bg-white border border-gray-200 rounded-lg overflow-hidden min-w-[200px] max-w-[300px] shadow-sm"
-        onMouseEnter={() => setShowDisconnect(true)}
-        onMouseLeave={() => setShowDisconnect(false)}
+        className="bg-white border border-gray-200 rounded-lg min-w-[200px] max-w-[300px] shadow-sm"
       >
-        <div className="font-bold bg-gray-50 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+        <div className="font-bold bg-gray-50 px-4 py-2 border-b border-gray-200 rounded-tl-lg rounded-tr-lg flex justify-between items-center">
           <span>{data.label}</span>
           <div className="flex items-center">
             {data.requirements.length > 0 && (
               <button
                 onClick={toggleRequirements}
-                className="mr-2 text-gray-500 hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700"
                 title={
                   showRequirements ? 'Hide requirements' : 'Show requirements'
                 }
@@ -76,15 +66,6 @@ export const CustomNodePresentation: React.FC<CustomNodeProps> = memo(
                 ) : (
                   <ToggleLeft size={16} />
                 )}
-              </button>
-            )}
-            {showDisconnect && (
-              <button
-                onClick={handleDisconnect}
-                className="text-gray-500 hover:text-gray-700"
-                title="Disconnect all connections"
-              >
-                <X size={16} />
               </button>
             )}
           </div>
@@ -117,8 +98,8 @@ export const CustomNodePresentation: React.FC<CustomNodeProps> = memo(
                     type="source"
                     position={Position.Right}
                     id={`${index}-right`}
-                    className="!w-3 !h-3 !min-w-[12px] !min-h-[12px] !border-2 !border-gray-300 !bg-white"
-                    style={{ right: -8, top: '50%' }}
+                    className="!border-gray-300"
+                    style={{ right: -28, top: '50%' }}
                   />
                 )}
               </div>
@@ -129,8 +110,8 @@ export const CustomNodePresentation: React.FC<CustomNodeProps> = memo(
           type="target"
           position={Position.Left}
           id="left"
-          className="!w-3 !h-3 !min-w-[12px] !min-h-[12px] !border-2 !border-gray-300 !bg-white"
-          style={{ left: -8, top: '50%' }}
+          className="!border-gray-300"
+          style={{ left: -4, top: '50%' }}
         />
       </div>
     )
@@ -139,42 +120,22 @@ export const CustomNodePresentation: React.FC<CustomNodeProps> = memo(
 
 export const EllipseNodePresentation: React.FC<CustomNodeProps> = memo(
   ({ id, data }: CustomNodeProps) => {
-    const [showDisconnect, setShowDisconnect] = useState(false)
-    const { setEdges } = useReactFlow()
-
-    const handleDisconnect = useCallback(() => {
-      setEdges(edges =>
-        edges.filter(edge => edge.source !== id && edge.target !== id)
-      )
-    }, [id, setEdges])
-
     return (
       <div
-        className="flex items-center justify-center w-32 h-12 bg-gray-50 border border-gray-200 rounded-full shadow-sm relative"
-        onMouseEnter={() => setShowDisconnect(true)}
-        onMouseLeave={() => setShowDisconnect(false)}
+        className="flex items-center justify-center w-60 h-12 bg-gray-50 border border-gray-200 rounded-full shadow-sm relative"
       >
         <span className="text-sm font-bold text-gray-600">{data.label}</span>
-        {showDisconnect && (
-          <button
-            onClick={handleDisconnect}
-            className="absolute -top-2 -right-2 w-5 h-5 bg-white border border-gray-300 rounded-full flex items-center justify-center text-gray-500 hover:text-gray-700"
-            title="Disconnect all connections"
-          >
-            <X size={12} />
-          </button>
-        )}
         <Handle
           type="target"
           position={Position.Left}
           className="!w-3 !h-3 !min-w-[12px] !min-h-[12px] !border-2 !border-gray-300 !bg-white"
-          style={{ left: -6 }}
+          style={{ left: -6, top: '50%' }}
         />
         <Handle
           type="source"
           position={Position.Right}
           className="!w-3 !h-3 !min-w-[12px] !min-h-[12px] !border-2 !border-gray-300 !bg-white"
-          style={{ right: -6 }}
+          style={{ right: -6, top: '50%' }}
         />
       </div>
     )

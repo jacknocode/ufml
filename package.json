@@ -1,6 +1,6 @@
 {
-  "name": "screen-flow-generator",
-  "version": "0.1.0",
+  "name": "UFML Editor",
+  "version": "1.0.0",
   "private": false,
   "scripts": {
     "dev": "next dev",
