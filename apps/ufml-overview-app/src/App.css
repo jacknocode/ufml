@@ -1,0 +1,288 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: #e2e8f0;
+  background: #1a202c;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Navigation */
+.nav {
+  background: #2d3748;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+.nav-link {
+  display: block;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  color: #a0aec0;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #90cdf4;
+  border-bottom-color: #90cdf4;
+  background: #4a5568;
+}
+
+/* Main Content */
+.main {
+  padding: 40px 0;
+  min-height: calc(100vh - 200px);
+}
+
+.content {
+  background: #2d3748;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  padding: 40px;
+  margin-bottom: 40px;
+}
+
+.content h1 {
+  color: #f7fafc;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid #90cdf4;
+  padding-bottom: 0.5rem;
+}
+
+.content h2 {
+  color: #e2e8f0;
+  font-size: 2rem;
+  margin: 2rem 0 1rem 0;
+  border-left: 4px solid #90cdf4;
+  padding-left: 1rem;
+}
+
+.content h3 {
+  color: #e2e8f0;
+  font-size: 1.5rem;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.content h4 {
+  color: #e2e8f0;
+  font-size: 1.2rem;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.content p {
+  margin-bottom: 1rem;
+  color: #cbd5e0;
+}
+
+.content ul, .content ol {
+  margin: 1rem 0 1rem 2rem;
+  color: #cbd5e0;
+}
+
+.content li {
+  margin-bottom: 0.5rem;
+}
+
+.content blockquote {
+  border-left: 4px solid #4a5568;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #a0aec0;
+  font-style: italic;
+}
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.content th,
+.content td {
+  border: 1px solid #4a5568;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.content th {
+  background: #1a202c;
+  font-weight: 600;
+  color: #f7fafc;
+}
+
+.content code {
+  background: #1a202c;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 0.9rem;
+  color: #90cdf4;
+}
+
+.content pre {
+  background: #1a202c;
+  color: #e2e8f0;
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1rem 0;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.content pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 60px 0;
+  color: #a0aec0;
+}
+
+.spinner {
+  border: 4px solid #4a5568;
+  border-top: 4px solid #90cdf4;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error */
+.error {
+  text-align: center;
+  padding: 60px 0;
+  color: #fc8181;
+}
+
+.error h1 {
+  color: #fc8181;
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+.footer {
+  background: #2d3748;
+  color: white;
+  text-align: center;
+  padding: 40px 0;
+  margin-top: 60px;
+}
+
+.footer p {
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .header p {
+    font-size: 1rem;
+  }
+
+  .nav-list {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-link {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  .content h1 {
+    font-size: 2rem;
+  }
+
+  .content h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Link styles */
+.content a {
+  color: #90cdf4;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.content a:hover {
+  border-bottom-color: #90cdf4;
+}

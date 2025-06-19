@@ -285,58 +285,7 @@
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <h1>UFML</h1>
-      <p>User interface Flow Markup Language - AI/LLM連携を前提とした軽量マークアップ言語</p>
-    </div>
-  </header>
-
-  <nav class="nav">
-    <div class="container nav-container">
-      <ul class="nav-list">
-        <li class="nav-item">
-          <a href="#readme" class="nav-link active" data-doc="README.md">概要</a>
-        </li>
-        <li class="nav-item">
-          <a href="#concept" class="nav-link" data-doc="docs/CONCEPT.md">設計思想</a>
-        </li>
-        <li class="nav-item">
-          <a href="#llms" class="nav-link" data-doc="llms.txt">LLM学習ガイド</a>
-        </li>
-        <li class="nav-item">
-          <a href="#license" class="nav-link" data-doc="LICENSE">ライセンス</a>
-        </li>
-        <li class="nav-item">
-          <a href="#privacy" class="nav-link" data-doc="docs/PRIVACY_POLICY.md">プライバシー</a>
-        </li>
-        <li class="nav-item">
-          <a href="#terms" class="nav-link" data-doc="docs/TERMS_OF_SERVICE.md">利用規約</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <main class="main">
-    <div class="container">
-      <div class="content" id="content">
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>ドキュメントを読み込み中...</p>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 UFML Project. オープンソースプロジェクト</p>
-    </div>
-  </footer>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-  <script type="module" src="/src/main.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
