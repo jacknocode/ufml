@@ -1,6 +1,8 @@
-MIT License
+# UFML (User interface Flow Markup Language) ライセンス
 
-Copyright (c) 2024 Kazuki Ikeda
+## MIT License
+
+Copyright (c) 2025 UFML Project
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +21,57 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+## UFML仕様について
+
+### 対象範囲
+
+本ライセンスは以下に適用されます：
+
+- UFML記法の仕様
+- UFML構文の定義
+- UFMLパーサーの実装
+- UFML関連のドキュメント
+- UFMLサンプルコード
+
+### 利用許可
+
+以下の利用を無制限で許可します：
+
+- **個人利用**: 学習、研究、開発での自由な利用
+- **商用利用**: 商用製品への組み込み、販売
+- **派生作品**: UFML仕様を基にした新しい仕様の作成
+- **実装**: UFML仕様に基づくエディター、パーサー、コンバーターの開発
+- **配布**: UFML仕様の再配布、改変版の配布
+- **教育**: 教育機関での利用、教材としての利用
+
+### 推奨事項
+
+以下は義務ではありませんが、推奨します：
+
+- UFML仕様を使用した製品やサービスでの出典明記
+- UFML仕様の改善提案やフィードバックの共有
+- UFMLコミュニティへの貢献
+
+---
+
+## 注意事項
+
+**重要**: 本ライセンスはUFML仕様自体に適用されます。UFML Editor Webアプリケーションには別途利用規約が適用されます。詳細は `TERMS_OF_SERVICE.md` を参照してください。
+
+### ライセンスの分離
+
+- **UFML仕様**: MIT License（本ライセンス）
+- **UFML Editor Webアプリ**: 制限付き利用規約
+- **オープンソース実装**: 各実装のライセンスに従う
+
+この分離により、UFML仕様の自由な利用と、特定の実装における適切な制限を両立しています。
+
+---
+
+**UFML Project**  
+https://github.com/jacknocode/ufml
+
+最終更新日: 2025年6月19日
