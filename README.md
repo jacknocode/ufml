@@ -2,7 +2,7 @@
 
 UFMLエディターは、AI/LLM連携を前提とした軽量マークアップ言語UFMLから、インタラクティブな画面遷移図を生成するオープンソースのアプリケーションです。
 
-![UFML Example](/docs/images/ufml-image.png)
+![UFML Example](./apps/ufml-app/docs/images/ufml-image.png)
 
 ## 🎯 UFMLとは
 
@@ -246,4 +246,4 @@ LLMによる生成結果は必ず人間の専門家によるレビューと妥�
 
 UFMLの設計思想や詳細な記述ルールについては、以下のドキュメントをご覧ください：
 
-- [UFMLの設計思想と背景](./docs/CONCEPT.md)
+- [UFMLの設計思想と背景](./apps/ufml-app/docs/CONCEPT.md)
