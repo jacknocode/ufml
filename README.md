@@ -2,7 +2,7 @@
 
 UFMLエディターは、AI/LLM連携を前提とした軽量マークアップ言語UFMLから、インタラクティブな画面遷移図を生成するオープンソースのアプリケーションです。
 
-![UFML Example](./apps/ufml-app/docs/images/ufml-image.png)
+![UFML Example](./docs/images/ufml-image.png)
 
 ## 🎯 UFMLとは
 
@@ -45,7 +45,7 @@ AI/LLMとの連携を前提に、UI開発プロセスを変革することを目
 git clone https://github.com/yourusername/ufml.git
 
 # プロジェクトディレクトリへ移動
-cd ufml
+cd ufml/apps/ufml-editor-app
 
 # 依存関係のインストール
 npm install
@@ -240,10 +240,34 @@ LLMによる生成結果は必ず人間の専門家によるレビューと妥�
 
 ## 📄 ライセンス
 
-このプロジェクトはMITライセンスの下で公開されています。詳細は[LICENSE](LICENSE)ファイルをご覧ください。
+このプロジェクトは **デュアルライセンス構造** を採用しています：
+
+## 🔓 UFML仕様 = MIT License（完全オープン）
+- **対象**: UFML記法・構文・概念
+- **ライセンス**: MIT License（商用利用も自由）
+- **著作権**: Copyright (c) 2025 UFML Project
+- **詳細**: [LICENSE](./LICENSE) ← **メインライセンス**
+- **用途**: UFML仕様に基づく独自エディター・パーサー・ツールの開発
+
+## 🔒 UFML Editor = カスタムライセンス（商用制限付き）
+- **対象**: このエディターの実装コード・Webアプリ
+- **ライセンス**: 商用利用制限付きカスタムライセンス
+- **著作権**: Copyright (c) 2024 Kazuki Ikeda
+- **詳細**: [LICENSE_EDITOR.md](./LICENSE_EDITOR.md)
+- **制限**: 製品化・再販は要ライセンス（内部利用は可）
+
+## 📋 利用シーン別ガイド
+
+| やりたいこと | 参照するライセンス | 制限 |
+|------------|------------------|------|
+| **UFML仕様で独自ツール開発** | `LICENSE` | なし（MIT） |
+| **エディターを企業内で利用** | `LICENSE_EDITOR.md` | なし |
+| **エディターコードで商用製品開発** | `LICENSE_EDITOR.md` | 要商用ライセンス |
+
+**重要**: UFML仕様（LICENSE）は完全オープン、エディター実装（LICENSE_EDITOR.md）は商用制限付き
 
 ## 📚 詳細ドキュメント
 
 UFMLの設計思想や詳細な記述ルールについては、以下のドキュメントをご覧ください：
 
-- [UFMLの設計思想と背景](./apps/ufml-app/docs/CONCEPT.md)
+- [UFMLの設計思想と背景](./docs/CONCEPT.md)
