@@ -4,7 +4,6 @@ import { EdgeProps, getBezierPath, BezierEdge } from 'reactflow'
 const createSelfLoopPath = (
   sourceX: number,
   sourceY: number,
-  nodeWidth: number = 200,
   loopHeight: number = 250 // より大きな高さに変更
 ): string => {
   // 右から下に向かうループを作成

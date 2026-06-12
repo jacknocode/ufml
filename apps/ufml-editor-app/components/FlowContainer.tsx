@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useRef, useState, useMemo, useEffect } from 'react'
+import React, { useCallback, useRef, useState, useMemo } from 'react'
 import { useReactFlow } from 'reactflow'
 import { FlowPresentation } from '@/components/FlowPresentation'
 import { useScreenFlow } from '@/hooks/useScreenFlow'
@@ -28,18 +28,15 @@ export function FlowContainer() {
     getRelatedNodeIds,
     handleCopyText,
     setNodes,
-    setEdges,
     setSavedPositions,
   } = useScreenFlow()
 
   const [backgroundColor, setBackgroundColor] = useState('#f0f0f0')
   const [dotGap, setDotGap] = useState(20)
   const [dotSize, setDotSize] = useState(1)
-  const [layoutMode, setLayoutMode] = useState<'bottom' | 'side'>('bottom')
-
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const flowRef = useRef<HTMLDivElement>(null)
-  const { fitView, fitBounds, getNodes, getViewport } = useReactFlow()
+  const { fitView } = useReactFlow()
 
   const handleAlignNodes = useCallback(
     (option: 'horizontal' | 'vertical' | 'grid') => {
@@ -60,10 +57,6 @@ export function FlowContainer() {
     [nodes, setNodes, setSavedPositions, fitView]
   )
 
-
-  const toggleLayoutMode = useCallback(() => {
-    setLayoutMode(prevMode => (prevMode === 'bottom' ? 'side' : 'bottom'))
-  }, [])
 
   // 選択されたエッジに関連するノードIDを取得
   const relatedNodeIds = getRelatedNodeIds(selectedEdgeId);
@@ -119,8 +112,6 @@ export function FlowContainer() {
       dotSize={dotSize}
       setDotSize={setDotSize}
       handleAlignNodes={handleAlignNodes}
-      layoutMode={layoutMode}
-      onToggleLayoutMode={toggleLayoutMode}
     />
   )
 }

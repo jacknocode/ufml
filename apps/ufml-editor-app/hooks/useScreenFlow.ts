@@ -339,9 +339,6 @@ export function useScreenFlow() {
 
   const handleCopyText = useCallback(() => {
     navigator.clipboard.writeText(input)
-      .then(() => {
-        console.log('テキストをクリップボードにコピーしました');
-      })
       .catch(err => {
         console.error('テキストのコピーに失敗しました:', err);
       });

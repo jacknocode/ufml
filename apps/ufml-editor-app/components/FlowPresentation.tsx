@@ -111,6 +111,7 @@ export const FlowPresentation: React.FC<FlowPresentationProps> = ({
   }, [])
 
   useLayoutEffect(() => {
+    const currentFlowRef = flowRef.current
     const resizeObserver = new ResizeObserver(() => {
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current)
@@ -123,26 +124,26 @@ export const FlowPresentation: React.FC<FlowPresentationProps> = ({
       }, 100)
     })
 
-    if (flowRef.current) {
-      resizeObserver.observe(flowRef.current)
+    if (currentFlowRef) {
+      resizeObserver.observe(currentFlowRef)
     }
 
     return () => {
-      if (flowRef.current) {
-        resizeObserver.unobserve(flowRef.current)
+      if (currentFlowRef) {
+        resizeObserver.unobserve(currentFlowRef)
       }
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current)
       }
     }
-  }, [fitView])
+  }, [fitView, flowRef])
 
   const handleResize = useCallback(() => {
     if (flowRef.current) {
       flowRef.current.style.height = `${window.innerHeight}px`
       fitView({ padding: 0.2, duration: 200 })
     }
-  }, [fitView])
+  }, [fitView, flowRef])
 
   return (
     <div className="w-full h-screen" ref={reactFlowWrapper}>

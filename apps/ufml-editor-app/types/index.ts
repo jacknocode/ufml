@@ -1,4 +1,4 @@
-import { Node, Edge, Connection, NodeTypes, EdgeTypes } from 'reactflow'
+import { Node, Edge, Connection, NodeTypes, EdgeTypes, OnNodesChange, OnEdgesChange } from 'reactflow'
 import { IconType } from '../utils/iconMapping'
 
 export interface ParsedItem {
@@ -31,8 +31,8 @@ export interface FlowPresentationProps {
   edges: Edge[]
   selectedEdgeId: string | null
   selectedNodeId: string | null
-  onNodesChange: (changes: any) => void
-  onEdgesChange: (changes: any) => void
+  onNodesChange: OnNodesChange
+  onEdgesChange: OnEdgesChange
   onConnect: (connection: Connection) => void
   onEdgeClick: (event: React.MouseEvent, edge: Edge) => void
   handlePaneClick: (event: React.MouseEvent) => void
@@ -54,8 +54,6 @@ export interface FlowPresentationProps {
   dotSize: number
   setDotSize: (size: number) => void
   handleAlignNodes: (option: 'horizontal' | 'vertical' | 'grid') => void
-  layoutMode: 'bottom' | 'side'
-  onToggleLayoutMode: () => void
 }
 
 export interface InputAreaProps {

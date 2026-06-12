@@ -1,4 +1,5 @@
 import { Edge, Node, MarkerType } from 'reactflow'
+import { ParsedItem } from '../types'
 
 let edgeIdCounter = 0
 
@@ -32,6 +33,6 @@ export const shouldCreateConnection = (
 ): boolean => {
   const sourceItems = sourceNode.data.items
   return sourceItems.some(
-    (item: any) => item.type === 'A' || item.type === 'ellipse'
+    (item: ParsedItem) => item.type === 'A' || item.type === 'ellipse'
   )
 }
