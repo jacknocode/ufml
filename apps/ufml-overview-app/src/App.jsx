@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { marked } from 'marked'
+import DOMPurify from 'dompurify'
 import Prism from 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 import 'prismjs/components/prism-javascript'
@@ -29,43 +30,59 @@ const navItems = [
   { key: 'docs/TERMS_OF_SERVICE.md', label: '利用規約', hash: 'terms' }
 ]
 
+// Render state is one of:
+//   { type: 'markdown', html: string }  — sanitized HTML from marked
+//   { type: 'text', value: string }     — raw plaintext, rendered via React (no dangerouslySetInnerHTML)
+const initialRenderState = { type: 'markdown', html: '' }
+
 function App() {
   const [currentDoc, setCurrentDoc] = useState('README.md')
-  const [content, setContent] = useState('')
+  const [renderState, setRenderState] = useState(initialRenderState)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const contentRef = useRef(null)
+
+  // Run Prism after the DOM has been updated with new HTML content
+  useEffect(() => {
+    if (!loading && !error && contentRef.current) {
+      Prism.highlightAll()
+    }
+  }, [renderState, loading, error])
 
   // ドキュメントを読み込む関数
   const loadDocument = async (docKey) => {
+    if (!docFiles[docKey]) {
+      setError(`Unknown document: ${docKey}`)
+      setLoading(false)
+      return
+    }
+
     setLoading(true)
     setError(null)
-    
+
     try {
       const docPath = docFiles[docKey]
       const response = await fetch(docPath)
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
-      
+
       const text = await response.text()
-      
+
       // ファイル拡張子に基づいてレンダリング方法を決定
-      let html
       if (docKey.endsWith('.md')) {
-        html = marked.parse(text)
+        // Sanitize with DOMPurify; default config intentionally kept so that
+        // marked's language-* classes on <code> elements are preserved, which
+        // Prism requires for syntax highlighting.
+        const html = DOMPurify.sanitize(marked.parse(text))
+        setRenderState({ type: 'markdown', html })
       } else {
-        // プレーンテキストの場合
-        html = `<pre><code>${text}</code></pre>`
+        // Plaintext branch: store raw value and render via JSX so no
+        // dangerouslySetInnerHTML is involved — eliminates the XSS vector
+        // where < in LICENSE / llms.txt was emitted as raw HTML.
+        setRenderState({ type: 'text', value: text })
       }
-      
-      setContent(html)
-      
-      // コードハイライトを適用（次のレンダリング後）
-      setTimeout(() => {
-        Prism.highlightAll()
-      }, 0)
-      
     } catch (err) {
       console.error('ドキュメントの読み込みに失敗しました:', err)
       setError(err.message)
@@ -102,6 +119,18 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [currentDoc])
 
+  const renderContent = () => {
+    if (renderState.type === 'text') {
+      return (
+        <pre><code>{renderState.value}</code></pre>
+      )
+    }
+    // type === 'markdown'
+    return (
+      <div dangerouslySetInnerHTML={{ __html: renderState.html }} />
+    )
+  }
+
   return (
     <div className="app">
       {/* Header */}
@@ -137,14 +166,14 @@ function App() {
       {/* Main Content */}
       <main className="main">
         <div className="container">
-          <div className="content">
+          <div className="content" ref={contentRef}>
             {loading && (
               <div className="loading">
                 <div className="spinner"></div>
                 <p>ドキュメントを読み込み中...</p>
               </div>
             )}
-            
+
             {error && (
               <div className="error">
                 <h1>エラー</h1>
@@ -152,10 +181,8 @@ function App() {
                 <p>エラー: {error}</p>
               </div>
             )}
-            
-            {!loading && !error && (
-              <div dangerouslySetInnerHTML={{ __html: content }} />
-            )}
+
+            {!loading && !error && renderContent()}
           </div>
         </div>
       </main>

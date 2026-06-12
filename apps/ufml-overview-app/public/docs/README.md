@@ -1,4 +1,8 @@
-# User interface Flow Markup Language (UFML)
+# User interface Flow Markup Language (UFML) Editor
+
+UFMLエディターは、AI/LLM連携を前提とした軽量マークアップ言語UFMLから、インタラクティブな画面遷移図を生成するオープンソースのアプリケーションです。
+
+![UFML Example](./docs/images/ufml-image.png)
 
 ## 🎯 UFMLとは
 
